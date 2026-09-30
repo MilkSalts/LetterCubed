@@ -12,6 +12,7 @@ public class DatabaseConnection {
     public static void connect() {
         try {
             connection = DriverManager.getConnection(DATABASE_URL);
+            connection.setAutoCommit(true);
             System.out.println("Database connection established.");
         } catch (SQLException e) {
             System.out.println("Error connecting to database: " + e.getMessage());
@@ -19,6 +20,11 @@ public class DatabaseConnection {
     }
 
     public static void initializeTables() {
+        if (connection == null) {
+            System.out.println("Error: Database connection not established.");
+            return;
+        }
+
         try (Statement statement = connection.createStatement()) {
             // Create Movie table
             String createMovieTable = "CREATE TABLE IF NOT EXISTS movies (" +
@@ -53,6 +59,10 @@ public class DatabaseConnection {
     }
 
     public static Connection getConnection() {
+        // Ensure connection is still valid, reconnect if needed
+        if (connection == null) {
+            connect();
+        }
         return connection;
     }
 
