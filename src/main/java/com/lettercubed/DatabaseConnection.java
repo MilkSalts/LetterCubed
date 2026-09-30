@@ -16,6 +16,7 @@ public class DatabaseConnection {
             System.out.println("Database connection established.");
         } catch (SQLException e) {
             System.out.println("Error connecting to database: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -25,7 +26,10 @@ public class DatabaseConnection {
             return;
         }
 
-        try (Statement statement = connection.createStatement()) {
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            
             // Create Movie table
             String createMovieTable = "CREATE TABLE IF NOT EXISTS movies (" +
                     "movie_id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -55,12 +59,32 @@ public class DatabaseConnection {
             System.out.println("Tables initialized successfully.");
         } catch (SQLException e) {
             System.out.println("Error initializing tables: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            // Close only the statement, NOT the connection
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    System.out.println("Error closing statement: " + e.getMessage());
+                }
+            }
         }
     }
 
     public static Connection getConnection() {
         // Ensure connection is still valid, reconnect if needed
         if (connection == null) {
+            System.out.println("Connection was null, reconnecting...");
+            connect();
+        }
+        try {
+            if (connection.isClosed()) {
+                System.out.println("Connection was closed, reconnecting...");
+                connect();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error checking connection: " + e.getMessage());
             connect();
         }
         return connection;
