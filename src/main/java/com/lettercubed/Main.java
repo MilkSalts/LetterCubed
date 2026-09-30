@@ -137,6 +137,7 @@ public class Main {
         CLIFormatter.printMenu(searchOptions);
         System.out.print("Choose search option: ");
         int choice = getIntInput();
+        scanner.nextLine(); // Consume the leftover newline
         List<Movie> results = new ArrayList<>();
 
         switch (choice) {
