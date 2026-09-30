@@ -1,0 +1,23 @@
+# Maven
+target/
+*.jar
+*.war
+*.ear
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.class
+
+# Database
+*.db
+lettercubed.db
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+build/
+dist/
