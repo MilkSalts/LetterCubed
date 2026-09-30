@@ -2,6 +2,7 @@ package com.lettercubed;
 
 import java.util.Scanner;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
@@ -34,6 +35,7 @@ public class Main {
             CLIFormatter.printMenu(mainMenuOptions);
             System.out.print("Choose an option: ");
             int choice = getIntInput();
+            scanner.nextLine(); // Consume the leftover newline
 
             switch (choice) {
                 case 1:
@@ -95,7 +97,6 @@ public class Main {
         String genre = scanner.nextLine();
         System.out.print("Enter year: ");
         int year = getIntInput();
-        scanner.nextLine();
 
         Movie movie = new Movie(title, director, genre, year);
         movie.saveMovie();
@@ -105,7 +106,6 @@ public class Main {
         CLIFormatter.printHeader("Add Movie to Watch List");
         System.out.print("Enter movie ID: ");
         int movieId = getIntInput();
-        scanner.nextLine();
 
         WatchList watchList = new WatchList(movieId, "to watch");
         watchList.addToWatchList();
@@ -115,10 +115,8 @@ public class Main {
         CLIFormatter.printHeader("Add Review");
         System.out.print("Enter movie ID: ");
         int movieId = getIntInput();
-        scanner.nextLine();
         System.out.print("Enter rating (1-5): ");
         int rating = getIntInput();
-        scanner.nextLine();
         System.out.print("Enter review text: ");
         String reviewText = scanner.nextLine();
 
@@ -139,7 +137,6 @@ public class Main {
         CLIFormatter.printMenu(searchOptions);
         System.out.print("Choose search option: ");
         int choice = getIntInput();
-        scanner.nextLine();
         List<Movie> results = new ArrayList<>();
 
         switch (choice) {
@@ -264,7 +261,6 @@ public class Main {
         CLIFormatter.printHeader("Edit Movie");
         System.out.print("Enter movie ID to edit: ");
         int movieId = getIntInput();
-        scanner.nextLine();
 
         System.out.print("Enter new title (leave blank to keep current): ");
         String title = scanner.nextLine();
@@ -282,7 +278,6 @@ public class Main {
         CLIFormatter.printHeader("Delete Movie");
         System.out.print("Enter movie ID to delete: ");
         int movieId = getIntInput();
-        scanner.nextLine();
 
         Movie.deleteMovie(movieId);
     }
@@ -291,7 +286,6 @@ public class Main {
         CLIFormatter.printHeader("Edit Watch List Status");
         System.out.print("Enter watch list ID to edit: ");
         int watchId = getIntInput();
-        scanner.nextLine();
 
         String[] statusOptions = {"to watch", "watching", "watched"};
         System.out.println("\nSelect new status:");
@@ -300,7 +294,6 @@ public class Main {
         }
         System.out.print("Enter status option: ");
         int statusChoice = getIntInput();
-        scanner.nextLine();
 
         if (statusChoice >= 1 && statusChoice <= statusOptions.length) {
             WatchList.editWatchListStatus(watchId, statusOptions[statusChoice - 1]);
