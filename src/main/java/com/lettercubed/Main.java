@@ -1,8 +1,8 @@
 package com.lettercubed;
 
-import java.util.Scanner;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
@@ -35,7 +35,7 @@ public class Main {
             CLIFormatter.printMenu(mainMenuOptions);
             System.out.print("Choose an option: ");
             int choice = getIntInput();
-            scanner.nextLine(); // Consume the leftover newline
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
@@ -72,7 +72,7 @@ public class Main {
                     running = false;
                     break;
                 default:
-                    CLIFormatter.printError("Invalid option. Please try again.");
+                    Formatter.printError("Invalid option. Please try again.");
             }
 
             if (choice != 11) {
@@ -84,7 +84,7 @@ public class Main {
         // Close database connection
         DatabaseConnection.disconnect();
         scanner.close();
-        CLIFormatter.printSuccess("Thank you for using Letter Cubed!");
+        Formatter.printSuccess("Thank you for using Letter Cubed!");
     }
 
     private static void addMovie() {
@@ -97,6 +97,7 @@ public class Main {
         String genre = scanner.nextLine();
         System.out.print("Enter year: ");
         int year = getIntInput();
+        scanner.nextLine();
 
         Movie movie = new Movie(title, director, genre, year);
         movie.saveMovie();
@@ -106,6 +107,7 @@ public class Main {
         CLIFormatter.printHeader("Add Movie to Watch List");
         System.out.print("Enter movie ID: ");
         int movieId = getIntInput();
+        scanner.nextLine();
 
         WatchList watchList = new WatchList(movieId, "to watch");
         watchList.addToWatchList();
@@ -115,8 +117,10 @@ public class Main {
         CLIFormatter.printHeader("Add Review");
         System.out.print("Enter movie ID: ");
         int movieId = getIntInput();
+        scanner.nextLine();
         System.out.print("Enter rating (1-5): ");
         int rating = getIntInput();
+        scanner.nextLine();
         System.out.print("Enter review text: ");
         String reviewText = scanner.nextLine();
 
@@ -137,7 +141,7 @@ public class Main {
         CLIFormatter.printMenu(searchOptions);
         System.out.print("Choose search option: ");
         int choice = getIntInput();
-        scanner.nextLine(); // Consume the leftover newline
+        scanner.nextLine();
         List<Movie> results = new ArrayList<>();
 
         switch (choice) {
@@ -159,12 +163,13 @@ public class Main {
             case 4:
                 System.out.print("Enter year: ");
                 int year = getIntInput();
+                scanner.nextLine();
                 results = MovieSearch.getMoviesByYear(year);
                 break;
             case 5:
                 return;
             default:
-                CLIFormatter.printError("Invalid option.");
+                Formatter.printError("Invalid option.");
                 return;
         }
 
@@ -173,7 +178,7 @@ public class Main {
 
     private static void displaySearchResults(List<Movie> movies) {
         if (movies.isEmpty()) {
-            CLIFormatter.printInfo("No movies found.");
+            Formatter.printInfo("No movies found.");
             return;
         }
 
@@ -195,7 +200,7 @@ public class Main {
         List<Movie> movies = Movie.getAllMovies();
 
         if (movies.isEmpty()) {
-            CLIFormatter.printInfo("No movies found.");
+            Formatter.printInfo("No movies found.");
             return;
         }
 
@@ -217,7 +222,7 @@ public class Main {
         List<Object[]> watchList = WatchList.getAllWatchList();
 
         if (watchList.isEmpty()) {
-            CLIFormatter.printInfo("Watch list is empty.");
+            Formatter.printInfo("Watch list is empty.");
             return;
         }
 
@@ -241,7 +246,7 @@ public class Main {
         List<Object[]> reviews = Review.getAllReviews();
 
         if (reviews.isEmpty()) {
-            CLIFormatter.printInfo("No reviews found.");
+            Formatter.printInfo("No reviews found.");
             return;
         }
 
@@ -262,6 +267,7 @@ public class Main {
         CLIFormatter.printHeader("Edit Movie");
         System.out.print("Enter movie ID to edit: ");
         int movieId = getIntInput();
+        scanner.nextLine();
 
         System.out.print("Enter new title (leave blank to keep current): ");
         String title = scanner.nextLine();
@@ -271,6 +277,7 @@ public class Main {
         String genre = scanner.nextLine();
         System.out.print("Enter new year (0 to keep current): ");
         int year = getIntInput();
+        scanner.nextLine();
 
         Movie.editMovie(movieId, title, director, genre, year);
     }
@@ -279,6 +286,7 @@ public class Main {
         CLIFormatter.printHeader("Delete Movie");
         System.out.print("Enter movie ID to delete: ");
         int movieId = getIntInput();
+        scanner.nextLine();
 
         Movie.deleteMovie(movieId);
     }
@@ -287,6 +295,7 @@ public class Main {
         CLIFormatter.printHeader("Edit Watch List Status");
         System.out.print("Enter watch list ID to edit: ");
         int watchId = getIntInput();
+        scanner.nextLine();
 
         String[] statusOptions = {"to watch", "watching", "watched"};
         System.out.println("\nSelect new status:");
@@ -295,11 +304,12 @@ public class Main {
         }
         System.out.print("Enter status option: ");
         int statusChoice = getIntInput();
+        scanner.nextLine();
 
         if (statusChoice >= 1 && statusChoice <= statusOptions.length) {
             WatchList.editWatchListStatus(watchId, statusOptions[statusChoice - 1]);
         } else {
-            CLIFormatter.printError("Invalid status option.");
+            Formatter.printError("Invalid status option.");
         }
     }
 
